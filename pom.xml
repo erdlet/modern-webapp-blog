@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.erdlet.blogging</groupId>
-    <artifactId>self-contained-system-tomcat</artifactId>
+    <artifactId>modern-webapp-blog</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>webapp</name>
@@ -16,6 +16,30 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.release>17</java.release>
     </properties>
+
+    <dependencies>
+
+        <!-- START PART 1: Setting up Jakarta RESTful Webservices and Jersey -->
+        <dependency>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>3.0.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+            <version>3.0.4</version>
+        </dependency>
+        <!-- END PART 1 -->
+
+    </dependencies>
 
     <build>
         <finalName>blogging-app</finalName>
