@@ -39,6 +39,20 @@
         </dependency>
         <!-- END PART 1 -->
 
+
+        <!-- START PART 2: Setting up Jakarta Bean Validation -->
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>3.0.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.ext</groupId>
+            <artifactId>jersey-bean-validation</artifactId>
+            <version>3.0.4</version>
+        </dependency>
+        <!-- END PART 2-->
     </dependencies>
 
     <build>

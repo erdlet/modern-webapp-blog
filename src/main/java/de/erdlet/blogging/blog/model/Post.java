@@ -26,8 +26,6 @@ public class Post {
 
     /**
      * Constructor for a new {@link Post} taking its name
-     *
-     * @param name
      */
     public Post(final String name, final String content, final LocalDateTime publishedAt) {
         this.id = UUID.randomUUID();
