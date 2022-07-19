@@ -2,6 +2,7 @@ package de.erdlet.blogging.blog.service;
 
 import de.erdlet.blogging.blog.api.PostDTO;
 import de.erdlet.blogging.blog.model.Post;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,18 +16,14 @@ import java.util.UUID;
  * <b>Attention:</b> This class won't be covered in detail, as this
  * helps only to keep the example running.
  */
-public final class PostService {
+@ApplicationScoped
+public class PostService {
 
-    private static final List<Post> POSTS = new ArrayList<>();
+    private List<Post> POSTS = new ArrayList<>();
 
-    private static PostService INSTANCE;
-
-    public static PostService getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new PostService();
-        }
-
-        return INSTANCE;
+    {
+        POSTS.add(new Post("My first post!", "This is my first post", LocalDateTime.now()));
+        POSTS.add(new Post("How to bake a cake", "Baking a cake is simple...", LocalDateTime.now().minusDays(3)));
     }
 
     public Optional<Post> findById(final UUID id) {
@@ -43,8 +40,5 @@ public final class PostService {
         POSTS.add(post);
 
         return post;
-    }
-
-    private PostService() {
     }
 }

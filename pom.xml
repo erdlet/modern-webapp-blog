@@ -53,6 +53,26 @@
             <version>3.0.4</version>
         </dependency>
         <!-- END PART 2-->
+
+        <!-- START PART 3: Setting up Jakarta Contexts and Dependency Injection -->
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.weld.servlet</groupId>
+            <artifactId>weld-servlet-core</artifactId>
+            <version>4.0.2.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.ext.cdi</groupId>
+            <artifactId>jersey-cdi1x-servlet</artifactId>
+            <version>3.0.4</version>
+        </dependency>
+        <!-- END PART 3 -->
     </dependencies>
 
     <build>
