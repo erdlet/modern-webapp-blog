@@ -6,31 +6,31 @@ import jakarta.ws.rs.FormParam;
 
 public class PostDTO {
 
-    @FormParam("title")
-    @NotBlank(message = "{PostDTO.title.NotBlank}")
-    @Size(min = 10, max = 256, message = "{PostDTO.title.Size}")
-    private String title;
+	@FormParam("title")
+	@NotBlank(message = "{PostDTO.title.NotBlank}")
+	@Size(min = 10, max = 256, message = "{PostDTO.title.Size}")
+	private String title;
 
-    @FormParam("content")
-    @NotBlank(message = "{PostDTO.content.NotBlank}")
-    private String content;
+	@FormParam("content")
+	@NotBlank(message = "{PostDTO.content.NotBlank}")
+	private String content;
 
-    public PostDTO() {
-    }
+	public PostDTO() {
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setTitle(final String title) {
-        this.title = title;
-    }
+	public void setTitle(final String title) {
+		this.title = title;
+	}
 
-    public String getContent() {
-        return content;
-    }
+	public String getContent() {
+		return content;
+	}
 
-    public void setContent(final String content) {
-        this.content = content;
-    }
+	public void setContent(final String content) {
+		this.content = content;
+	}
 }

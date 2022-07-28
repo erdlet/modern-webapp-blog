@@ -3,9 +3,10 @@ package de.erdlet.blogging.blog.service;
 import de.erdlet.blogging.blog.api.PostDTO;
 import de.erdlet.blogging.blog.model.Post;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,26 +20,55 @@ import java.util.UUID;
 @ApplicationScoped
 public class PostService {
 
-    private List<Post> POSTS = new ArrayList<>();
+	@Inject
+	EntityManager em;
 
-    {
-        POSTS.add(new Post("My first post!", "This is my first post", LocalDateTime.now()));
-        POSTS.add(new Post("How to bake a cake", "Baking a cake is simple...", LocalDateTime.now().minusDays(3)));
-    }
+	public Optional<Post> findById(final UUID id) {
+		try {
+			em.getTransaction().begin();
 
-    public Optional<Post> findById(final UUID id) {
-        return POSTS.stream().filter(post -> post.getId().equals(id)).findFirst();
-    }
+			final var post = em.createNamedQuery(Post.FIND_BY_ID_QUERY, Post.class).setParameter("id", id).getResultList().stream().findFirst();
 
-    public List<Post> findAll() {
-        return List.copyOf(POSTS);
-    }
+			em.getTransaction().commit();
+			return post;
+		} catch (Exception ex) {
+			em.getTransaction().rollback();
 
-    public Post create(final PostDTO dto) {
-        final var post = new Post(dto.getTitle(), dto.getContent(), LocalDateTime.now());
+			return Optional.empty();
+		}
+	}
 
-        POSTS.add(post);
+	public List<Post> findAll() {
+		try {
+			em.getTransaction().begin();
 
-        return post;
-    }
+			final var posts = List.copyOf(em.createNamedQuery(Post.FIND_ALL_QUERY, Post.class).getResultList());
+
+			em.getTransaction().commit();
+
+			return posts;
+		} catch (Exception ex) {
+			em.getTransaction().rollback();
+
+			return List.of();
+		}
+	}
+
+	public Post create(final PostDTO dto) {
+		final var post = new Post(dto.getTitle(), dto.getContent(), LocalDateTime.now());
+
+		try {
+			em.getTransaction().begin();
+
+			em.persist(post);
+
+			em.getTransaction().commit();
+
+			return post;
+		} catch (Exception ex) {
+			em.getTransaction().rollback();
+
+			throw ex;
+		}
+	}
 }

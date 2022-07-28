@@ -17,26 +17,26 @@ import java.util.stream.Collectors;
 @RequestScoped
 public class PostsResource {
 
-    @Inject
-    PostService postService;
+	@Inject
+	PostService postService;
 
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response index() {
-        return Response.ok(toTextResult(postService.findAll())).build();
-    }
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response index() {
+		return Response.ok(toTextResult(postService.findAll())).build();
+	}
 
-    @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response create(@Valid @BeanParam final PostDTO dto) {
-        final var post = postService.create(dto);
-        final var location = URI.create("/blogging-app/posts/" + post.getId());
+	@POST
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response create(@Valid @BeanParam final PostDTO dto) {
+		final var post = postService.create(dto);
+		final var location = URI.create("/blogging-app/posts/" + post.getId());
 
-        return Response.created(location).build();
-    }
+		return Response.created(location).build();
+	}
 
-    // Helper until Content Negotiation is introduced
-    private String toTextResult(final List<Post> posts) {
-        return posts.stream().map(Post::toString).collect(Collectors.joining(", "));
-    }
+	// Helper until Content Negotiation is introduced
+	private String toTextResult(final List<Post> posts) {
+		return posts.stream().map(Post::toString).collect(Collectors.joining(", "));
+	}
 }
