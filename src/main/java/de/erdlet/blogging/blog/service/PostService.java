@@ -1,6 +1,5 @@
 package de.erdlet.blogging.blog.service;
 
-import de.erdlet.blogging.blog.api.PostDTO;
 import de.erdlet.blogging.blog.model.Post;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -24,18 +23,11 @@ public class PostService {
 	EntityManager em;
 
 	public Optional<Post> findById(final UUID id) {
-		try {
-			em.getTransaction().begin();
+		return findByIdWithQuery(Post.FIND_BY_ID_QUERY, id);
+	}
 
-			final var post = em.createNamedQuery(Post.FIND_BY_ID_QUERY, Post.class).setParameter("id", id).getResultList().stream().findFirst();
-
-			em.getTransaction().commit();
-			return post;
-		} catch (Exception ex) {
-			em.getTransaction().rollback();
-
-			return Optional.empty();
-		}
+	public Optional<Post> findWithComments(final UUID id) {
+		return findByIdWithQuery(Post.FIND_WITH_COMMENTS, id);
 	}
 
 	public List<Post> findAll() {
@@ -54,8 +46,8 @@ public class PostService {
 		}
 	}
 
-	public Post create(final PostDTO dto) {
-		final var post = new Post(dto.getTitle(), dto.getContent(), LocalDateTime.now());
+	public Post create(final String title, final String content) {
+		final var post = new Post(title, content, LocalDateTime.now());
 
 		try {
 			em.getTransaction().begin();
@@ -69,6 +61,59 @@ public class PostService {
 			em.getTransaction().rollback();
 
 			throw ex;
+		}
+	}
+
+	public Optional<Post> update(final UUID id, final String title, final String content) {
+		try {
+			em.getTransaction().begin();
+
+			final var result = em.createNamedQuery(Post.FIND_BY_ID_QUERY, Post.class)
+					.setParameter("id", id)
+					.getResultList()
+					.stream()
+					.findFirst()
+					.map(post -> post.update(title, content))
+					.map(post -> em.merge(post));
+
+			em.getTransaction().commit();
+
+			return result;
+		} catch (final Exception ex) {
+			em.getTransaction().rollback();
+
+			throw ex;
+		}
+	}
+
+	private Optional<Post> findByIdWithQuery(final String query, final UUID id) {
+		try {
+			em.getTransaction().begin();
+
+			final var post = em.createNamedQuery(query, Post.class).setParameter("id", id).getResultList().stream().findFirst();
+
+			em.getTransaction().commit();
+			return post;
+		} catch (Exception ex) {
+			em.getTransaction().rollback();
+
+			return Optional.empty();
+		}
+	}
+
+	public void delete(final UUID id) {
+		try {
+			em.getTransaction().begin();
+
+			em.createNamedQuery(Post.FIND_BY_ID_QUERY, Post.class).setParameter("id", id)
+					.getResultList()
+					.stream()
+					.findFirst()
+					.ifPresent(post -> em.remove(post));
+
+			em.getTransaction().commit();
+		} catch (Exception ex) {
+			em.getTransaction().rollback();
 		}
 	}
 }

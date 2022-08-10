@@ -11,12 +11,14 @@ import java.util.UUID;
 @Entity
 @NamedQueries({
 		@NamedQuery(name = Post.FIND_ALL_QUERY, query = "select p from Post p order by publishedAt desc"),
-		@NamedQuery(name = Post.FIND_BY_ID_QUERY, query = "select p from Post p where id = :id")
+		@NamedQuery(name = Post.FIND_BY_ID_QUERY, query = "select p from Post p where id = :id"),
+		@NamedQuery(name = Post.FIND_WITH_COMMENTS, query = "select p from Post p join fetch Comment c where p.id = :id")
 })
 public class Post {
 
 	public static final String FIND_ALL_QUERY = "Post.findAll";
 	public static final String FIND_BY_ID_QUERY = "Post.findById";
+	public static final String FIND_WITH_COMMENTS = "Post.findWithComments";
 
 	@Id
 	private UUID id;
@@ -74,6 +76,13 @@ public class Post {
 		return comment;
 	}
 
+	public Post update(final String title, final String content) {
+		this.title = title;
+		this.content = content;
+
+		return this;
+	}
+
 	@Override
 	public boolean equals(final Object o) {
 		if (this == o) return true;
@@ -96,4 +105,5 @@ public class Post {
 				", publishedAt=" + publishedAt +
 				'}';
 	}
+
 }

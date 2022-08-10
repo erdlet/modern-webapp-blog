@@ -1,36 +1,60 @@
 package de.erdlet.blogging.blog.api;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import jakarta.ws.rs.FormParam;
+import de.erdlet.blogging.blog.model.Post;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class PostDTO {
 
-	@FormParam("title")
-	@NotBlank(message = "{PostDTO.title.NotBlank}")
-	@Size(min = 10, max = 256, message = "{PostDTO.title.Size}")
-	private String title;
+	private final UUID id;
+	private final String title;
+	private final String content;
+	private final String publishedAt;
+	private final List<CommentDTO> comments;
 
-	@FormParam("content")
-	@NotBlank(message = "{PostDTO.content.NotBlank}")
-	private String content;
+	public PostDTO(final Post post) {
+		Objects.requireNonNull(post, "post mustn't be null");
 
-	public PostDTO() {
+		id = post.getId();
+		title = post.getTitle();
+		content = post.getContent();
+		publishedAt = post.getPublishedAt().format(OutputFormats.DATE_GERMAN);
+
+		comments = post.getComments().stream().map(CommentDTO::new).collect(Collectors.toList());
+	}
+
+	private PostDTO(final UUID id, final String title, final String content) {
+		this.id = id;
+		this.title = title;
+		this.content = content;
+		this.publishedAt = null;
+		this.comments = List.of();
+	}
+
+	public static PostDTO fromEditForm(final UUID id, final PostForm form) {
+		return new PostDTO(id, form.getTitle(), form.getContent());
+	}
+
+	public UUID getId() {
+		return id;
 	}
 
 	public String getTitle() {
 		return title;
 	}
 
-	public void setTitle(final String title) {
-		this.title = title;
-	}
-
 	public String getContent() {
 		return content;
 	}
 
-	public void setContent(final String content) {
-		this.content = content;
+	public String getPublishedAt() {
+		return publishedAt;
+	}
+
+	public List<CommentDTO> getComments() {
+		return comments;
 	}
 }
