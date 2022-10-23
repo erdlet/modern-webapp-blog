@@ -21,11 +21,6 @@ public class JakartaRestApplication extends Application {
 		// is required to contain a CSRF token.
 		values.put(Csrf.CSRF_PROTECTION, Csrf.CsrfOptions.IMPLICIT);
 
-		// Enable hidden method filter for support of PUT, PATCH and DELETE in forms.
-		//
-		// This will be specified in Jakarta MVC 2.1 and set to 'true' per default
-		values.put(Properties.HIDDEN_METHOD_FILTER_ACTIVE, true);
-
 		// Enable Cookie to store redirect scope token
 		values.put(Properties.REDIRECT_SCOPE_COOKIES, true);
 

@@ -1,5 +1,6 @@
-package de.erdlet.blogging.blog.api;
+package de.erdlet.blogging.blog.api.mvc;
 
+import de.erdlet.blogging.blog.api.OutputFormats;
 import de.erdlet.blogging.blog.model.Post;
 
 import java.util.List;

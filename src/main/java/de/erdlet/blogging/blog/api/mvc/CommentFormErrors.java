@@ -1,4 +1,4 @@
-package de.erdlet.blogging.blog.api;
+package de.erdlet.blogging.blog.api.mvc;
 
 import jakarta.mvc.RedirectScoped;
 import jakarta.mvc.binding.ParamError;

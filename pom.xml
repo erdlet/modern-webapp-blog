@@ -123,15 +123,29 @@
         <dependency>
             <groupId>jakarta.mvc</groupId>
             <artifactId>jakarta.mvc-api</artifactId>
-            <version>2.0.1</version>
+            <version>2.1.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.eclipse.krazo</groupId>
             <artifactId>krazo-jersey</artifactId>
-            <version>2.0.2</version>
+            <version>3.0.1</version>
         </dependency>
         <!-- END PART 5 -->
+
+        <!-- START PART 6 -->
+        <dependency>
+            <groupId>jakarta.json.bind</groupId>
+            <artifactId>jakarta.json.bind-api</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-binding</artifactId>
+            <version>3.0.4</version>
+        </dependency>
+        <!-- END PART 6 -->
     </dependencies>
 
     <build>
@@ -171,6 +185,16 @@
                             <containerUrl>
                                 https://dlcdn.apache.org/tomcat/tomcat-10/v10.0.23/bin/apache-tomcat-10.0.23.zip
                             </containerUrl>
+                            <configuration>
+                                <properties>
+                                    <cargo.jvmargs>
+                                        -Xdebug
+                                        -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9000
+                                        -Xnoagent
+                                        -Djava.compiler=NONE
+                                    </cargo.jvmargs>
+                                </properties>
+                            </configuration>
                         </configuration>
                     </plugin>
                 </plugins>

@@ -1,4 +1,4 @@
-package de.erdlet.blogging.blog.api;
+package de.erdlet.blogging.blog.api.mvc;
 
 import jakarta.mvc.binding.MvcBinding;
 import jakarta.validation.constraints.NotBlank;
@@ -8,13 +8,13 @@ import jakarta.ws.rs.FormParam;
 public class PostForm {
 
 	@FormParam("title")
-	@NotBlank(message = "{PostDTO.title.NotBlank}")
-	@Size(min = 10, max = 256, message = "{PostDTO.title.Size}")
+	@NotBlank(message = "{PostForm.title.NotBlank}")
+	@Size(min = 10, max = 256, message = "{PostForm.title.Size}")
 	@MvcBinding
 	private String title;
 
 	@FormParam("content")
-	@NotBlank(message = "{PostDTO.content.NotBlank}")
+	@NotBlank(message = "{PostForm.content.NotBlank}")
 	@MvcBinding
 	private String content;
 
